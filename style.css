@@ -1,0 +1,232 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",Arial,sans-serif;
+}
+
+body{
+
+    width:340px;
+
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+
+    color:#fff;
+
+    padding:18px;
+
+}
+
+.container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+.header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.logo{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:16px;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:30px;
+
+    box-shadow:0 10px 25px rgba(37,99,235,.45);
+
+}
+
+.header h2{
+
+    font-size:20px;
+
+    font-weight:700;
+
+}
+
+.header p{
+
+    color:#cbd5e1;
+
+    font-size:13px;
+
+    margin-top:4px;
+
+}
+
+.status-card{
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:14px;
+
+    padding:14px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.status-dot{
+
+    width:14px;
+
+    height:14px;
+
+    border-radius:50%;
+
+    background:#ef4444;
+
+    box-shadow:0 0 10px #ef4444;
+
+    animation:pulse 1.5s infinite;
+
+}
+
+.status-dot.active{
+
+    background:#22c55e;
+
+    box-shadow:0 0 12px #22c55e;
+
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.2);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+#statusText{
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+button{
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+
+    color:white;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 12px 30px rgba(37,99,235,.45);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+.info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+
+    background:rgba(255,255,255,.06);
+
+    border-radius:14px;
+
+    padding:14px;
+
+}
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    font-size:14px;
+
+}
+
+.row span:first-child{
+
+    color:#60a5fa;
+
+    font-weight:700;
+
+}
+
+.footer{
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:12px;
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+    padding-top:12px;
+
+}

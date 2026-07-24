@@ -1,0 +1,184 @@
+/* ===========================
+   CSS Inspector Pro
+=========================== */
+
+#cssInspectorPanel {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 380px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #0f172a;
+    color: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+    border: 1px solid rgba(255, 255, 255, .08);
+    z-index: 2147483647;
+    font-family: Segoe UI, Arial, sans-serif;
+    user-select: none;
+    animation: fadeIn .25s ease;
+}
+
+#cssInspectorHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 18px;
+    background: #1e293b;
+    cursor: move;
+    border-radius: 14px 14px 0 0;
+}
+
+#cssInspectorTitle {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#cssInspectorControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#cssInspectorFreeze,
+#cssInspectorClose {
+    width: 30px;
+    height: 30px;
+    border: none;
+    color: #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#cssInspectorFreeze {
+    background: #2563eb;
+}
+
+#cssInspectorClose {
+    background: #ef4444;
+}
+
+#cssInspectorFreeze:hover {
+    background: #1d4ed8;
+}
+
+#cssInspectorClose:hover {
+    background: #dc2626;
+}
+
+#cssInspectorBody {
+    padding: 15px;
+}
+
+.css-section {
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+    padding-bottom: 12px;
+}
+
+.css-section:last-child {
+    border: none;
+}
+
+.css-heading {
+    color: #60a5fa;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.css-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    gap: 12px;
+}
+
+.css-label {
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.css-value {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+    word-break: break-word;
+}
+
+.cssInspectorHighlight,
+.css-highlight {
+    outline: 2px solid #2563eb !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, .35), 0 0 18px rgba(37, 99, 235, .55);
+    cursor: crosshair !important;
+}
+
+
+/* ===========================
+   Freeze Highlight
+=========================== */
+
+.cssInspectorSelected{
+
+    outline:3px solid #22c55e !important;
+
+    outline-offset:2px !important;
+
+    box-shadow:
+    0 0 0 2px rgba(34,197,94,.35),
+    0 0 18px rgba(34,197,94,.7);
+
+}
+
+/* ===========================
+   Scrollbar
+=========================== */
+
+#cssInspectorPanel::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+#cssInspectorPanel::-webkit-scrollbar-thumb{
+
+    background:#475569;
+
+    border-radius:20px;
+
+}
+
+#cssInspectorPanel::-webkit-scrollbar-track{
+
+    background:#0f172a;
+
+}
+
+/* ===========================
+   Animation
+=========================== */
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}

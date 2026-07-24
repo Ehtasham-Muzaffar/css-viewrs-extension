@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Inspector Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🎨</div>
+            <div>
+                <h2>CSS Inspector Pro</h2>
+                <p>Professional CSS Inspector</p>
+            </div>
+        </div>
+
+        <div class="status-card">
+            <div class="status-dot" id="statusDot"></div>
+            <div>
+                <span id="statusText">Inspector Disabled</span>
+            </div>
+        </div>
+
+        <button id="toggleBtn">▶ Start Inspecting</button>
+
+        <div class="info">
+            <div class="row">
+                <span>Hover</span>
+                <span>Inspect Elements</span>
+            </div>
+            <div class="row">
+                <span>Click</span>
+                <span>Freeze Selection</span>
+            </div>
+            <div class="row">
+                <span>ESC</span>
+                <span>Exit Inspector</span>
+            </div>
+            <div class="row">
+                <span>Drag</span>
+                <span>Move Inspector Panel</span>
+            </div>
+        </div>
+
+        <div class="footer">Version 1.0</div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
