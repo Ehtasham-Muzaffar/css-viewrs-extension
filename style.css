@@ -175,9 +175,57 @@ button:hover{
 
 }
 
+button.secondary-btn{
+
+    background:linear-gradient(135deg,#0f766e,#14b8a6);
+
+}
+
+button.secondary-btn:hover{
+
+    box-shadow:0 12px 30px rgba(20,184,166,.45);
+
+}
+
 button:active{
 
     transform:scale(.98);
+
+}
+
+.tag-options{
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:12px;
+
+    padding:10px 12px;
+
+}
+
+.checkbox-row{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    font-size:14px;
+
+    color:#e2e8f0;
+
+}
+
+.checkbox-row input{
+
+    width:16px;
+
+    height:16px;
+
+    accent-color:#22c55e;
 
 }
 

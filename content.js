@@ -4,6 +4,16 @@ let currentElement = null;
 let inspectorPanel = null;
 let dragState = null;
 let panelInteractionsReady = false;
+let tagLabelsEnabled = false;
+let showOnlyFontTags = false;
+let tagLabelLayer = null;
+let tagLabelObserver = null;
+let tagRenderFrame = 0;
+let tagRenderScheduled = false;
+
+const EXCLUDED_TAGS = new Set(["HTML", "HEAD", "BODY", "SCRIPT", "STYLE", "LINK", "META", "TITLE"]);
+const FONT_TAGS = new Set(["P", "H1", "H2", "H3", "H4", "H5", "H6", "SPAN", "A", "STRONG", "EM", "LABEL", "BUTTON"]);
+const MAX_TAG_LABELS = 220;
 
 function clearHighlight() {
     if (currentElement) {
@@ -120,6 +130,141 @@ function showCSS(element) {
     }
 }
 
+function createTagLabel(element) {
+    if (!(element instanceof Element)) return null;
+    if (EXCLUDED_TAGS.has(element.tagName) || element.closest("#cssInspectorPanel") || element.closest(".css-tag-label")) {
+        return null;
+    }
+
+    const rect = element.getBoundingClientRect();
+    const style = window.getComputedStyle(element);
+
+    if (!rect || (rect.width < 2 && rect.height < 2) || style.display === "none" || style.visibility === "hidden") {
+        return null;
+    }
+
+    const label = document.createElement("div");
+    label.className = "css-tag-label";
+    label.textContent = `${element.tagName.toLowerCase()} · ${style.fontSize}`;
+    label.style.left = `${rect.left}px`;
+    label.style.top = `${rect.top}px`;
+    return label;
+}
+
+function scheduleTagLabelRender() {
+    if (!tagLabelsEnabled || tagRenderScheduled) return;
+
+    tagRenderScheduled = true;
+    tagRenderFrame = window.requestAnimationFrame(() => {
+        tagRenderScheduled = false;
+        renderTagLabels();
+    });
+}
+
+function cancelTagLabelRender() {
+    if (tagRenderFrame) {
+        window.cancelAnimationFrame(tagRenderFrame);
+    }
+    tagRenderFrame = 0;
+    tagRenderScheduled = false;
+}
+
+function shouldShowTagLabel(element) {
+    if (!(element instanceof Element)) return false;
+    if (EXCLUDED_TAGS.has(element.tagName)) return false;
+    if (element.closest("#cssInspectorPanel")) return false;
+    if (element.closest(".css-tag-label")) return false;
+
+    const rect = element.getBoundingClientRect();
+    const style = window.getComputedStyle(element);
+    if (rect.width < 2 && rect.height < 2) return false;
+    if (style.display === "none" || style.visibility === "hidden") return false;
+
+    if (!showOnlyFontTags) return true;
+
+    return FONT_TAGS.has(element.tagName);
+}
+
+function renderTagLabels() {
+    if (!tagLabelsEnabled) return;
+
+    if (!tagLabelLayer) {
+        tagLabelLayer = document.createElement("div");
+        tagLabelLayer.id = "cssTagLabelLayer";
+        document.body?.appendChild(tagLabelLayer);
+    }
+
+    tagLabelLayer.innerHTML = "";
+    const elements = Array.from(document.querySelectorAll("*"))
+        .filter((element) => shouldShowTagLabel(element))
+        .slice(0, MAX_TAG_LABELS);
+
+    elements.forEach((element) => {
+        const label = createTagLabel(element);
+        if (label) {
+            tagLabelLayer.appendChild(label);
+        }
+    });
+}
+
+function attachTagLabelObserver() {
+    if (tagLabelObserver || !document.documentElement) return;
+
+    tagLabelObserver = new MutationObserver(() => {
+        if (tagLabelsEnabled) {
+            scheduleTagLabelRender();
+        }
+    });
+
+    tagLabelObserver.observe(document.documentElement, {
+        childList: true,
+        subtree: true
+    });
+}
+
+function detachTagLabelObserver() {
+    tagLabelObserver?.disconnect();
+    tagLabelObserver = null;
+}
+
+function attachTagLabelEvents() {
+    window.addEventListener("scroll", scheduleTagLabelRender, true);
+    window.addEventListener("resize", scheduleTagLabelRender);
+    attachTagLabelObserver();
+}
+
+function detachTagLabelEvents() {
+    window.removeEventListener("scroll", scheduleTagLabelRender, true);
+    window.removeEventListener("resize", scheduleTagLabelRender);
+    detachTagLabelObserver();
+}
+
+function showTagLabels() {
+    if (tagLabelsEnabled) return;
+
+    tagLabelsEnabled = true;
+    attachTagLabelEvents();
+    scheduleTagLabelRender();
+}
+
+function hideTagLabels() {
+    if (!tagLabelsEnabled) return;
+
+    tagLabelsEnabled = false;
+    cancelTagLabelRender();
+    detachTagLabelEvents();
+    tagLabelLayer?.remove();
+    tagLabelLayer = null;
+}
+
+function toggleTagLabels() {
+    if (tagLabelsEnabled) {
+        hideTagLabels();
+    } else {
+        showTagLabels();
+    }
+}
+
 function handleMouseMove(event) {
     if (!enabled || isFrozen) return;
 
@@ -219,6 +364,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         enableInspector();
     } else if (request.action === "disable") {
         disableInspector();
+    } else if (request.action === "showTagLabels") {
+        showTagLabels();
+    } else if (request.action === "hideTagLabels") {
+        hideTagLabels();
+    } else if (request.action === "toggleTagLabels") {
+        toggleTagLabels();
+    } else if (request.action === "setTagFilter") {
+        showOnlyFontTags = Boolean(request.showOnlyFontTags);
+        if (tagLabelsEnabled) {
+            scheduleTagLabelRender();
+        }
+    } else if (request.action === "ping") {
+        sendResponse({ success: true });
+        return true;
     }
 
     sendResponse({ success: true });

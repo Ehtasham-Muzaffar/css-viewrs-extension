@@ -72,6 +72,23 @@
     padding: 15px;
 }
 
+.css-tag-label {
+    position: fixed;
+    z-index: 2147483646;
+    pointer-events: none;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95);
+    color: #f8fafc;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+    white-space: nowrap;
+    transform: translate(-2px, -2px);
+}
+
 .css-section {
     margin-bottom: 18px;
     border-bottom: 1px solid rgba(255, 255, 255, .08);
